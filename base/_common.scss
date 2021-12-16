@@ -1,0 +1,21 @@
+html {
+    font-size: 62.5%;
+    font-family: $g-font-family;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+textarea {
+    resize: none;
+}

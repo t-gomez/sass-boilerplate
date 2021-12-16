@@ -1,0 +1,218 @@
+
+///
+/// CSS Triangle
+///
+/// Usage: 
+///      &::before {
+///			@include css-triangle(blue, down);
+///		}
+///
+
+@mixin css-triangle($color, $direction, $size: 6px, $position: absolute, $round: false){
+	@include pseudo($pos: $position);
+	width: 0;
+	height: 0;
+
+	@if $round {
+		border-radius: 3px;
+	}
+
+	@if $direction == down {
+		border-left: $size solid transparent;
+		border-right: $size solid transparent;
+		border-top: $size solid $color;
+		margin-top: 0 - round( $size / 2.5 );
+	} @else if $direction == up {
+		border-left: $size solid transparent;
+		border-right: $size solid transparent;
+		border-bottom: $size solid $color;
+		margin-bottom: 0 - round( $size / 2.5 );
+	} @else if $direction == right {
+		border-top: $size solid transparent;
+		border-bottom: $size solid transparent;
+		border-left: $size solid $color;
+		margin-right: -$size;
+	} @else if  $direction == left {
+		border-top: $size solid transparent;
+		border-bottom: $size solid transparent;
+		border-right: $size solid $color;
+		margin-left: -$size;
+	}
+}
+
+///
+/// Input placeholder styling
+///
+
+@mixin input-placeholder {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+///
+/// Selection
+///
+
+@mixin selection {
+	::-moz-selection { @content; }
+	::selection { @content; }
+}
+
+///
+/// Make element unselectable
+///
+
+@mixin unselectable {
+	-webkit-touch-callout: none;
+	user-select: none;
+}
+
+///
+/// Make element invisible
+///
+
+@mixin invisible {
+	visibility: hidden;
+}
+
+///
+/// Make element hidden
+///
+
+@mixin hidden {
+	display: none;
+	visibility: hidden;
+}
+
+///
+/// Transition 
+/// Default: $g-default-transition
+///			
+
+@mixin transition($t: $g-default-transition){
+	-webkit-transition: $t;
+    -moz-transition: $t;
+    -ms-transition: $t;
+    -o-transition: $t;
+    transition: $t;
+}
+
+///
+/// Transition delay
+/// Default: $g-transition-delay
+///
+
+@mixin delay($d: $g-default-delay){
+	transition-delay:$d;
+}
+
+
+///
+/// Faded from side start properties
+/// Defaults: 
+///		direction-start: "left"
+///		amount: $g-default-fade-amount
+///
+
+@mixin faded-start($direction-start: "left", $amount: $g-default-fade-amount){
+	@if map-has-key($directions, $direction-start) {
+		@include transition;
+		opacity: 0;
+		transform: str-replace(map-get($directions, $direction-start), 'value', $amount);
+	}
+}
+
+$directions: (
+    "left" : translateX(-value),
+    "right" : translateX(value),
+    "up" : translateY(-value),
+    "down" : translateY(value),
+);
+
+///
+/// Faded end properties
+///
+
+@mixin faded-end {
+	opacity: 1;
+	transform: none;
+}
+
+///
+/// Flex 
+///
+
+@mixin flex($dir: null, $just: null, $align: null, $wrap: null){
+	display: flex;
+
+	@if $dir{
+		flex-direction: $dir;
+	}
+
+	@if $just{
+		justify-content: $just;
+	}
+
+	@if $align{
+		align-items: $align;
+	}
+
+	@if $wrap{
+		flex-wrap: wrap;
+	}
+}
+
+///
+/// States 
+/// Defaults:
+/// 		$hover: true
+/// 		$focus: true
+///
+
+@mixin state($hover: true, $focus: true){
+	@if $hover{
+		&:hover{
+			@content;
+		}
+	}
+
+	@if $focus{
+		&:focus{
+			@content;
+		}
+	}
+}
+
+@mixin before{
+	&::before{
+		@content;
+	}
+}
+
+@mixin after{
+	&::after{
+		@content;
+	}
+}
+
+@mixin rounded {
+    border-radius: $g-radius;
+}
+
+@mixin circle {
+    border-radius: 50%;
+}
+
+@mixin background-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
